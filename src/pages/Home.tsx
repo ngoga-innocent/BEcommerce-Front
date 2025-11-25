@@ -5,7 +5,7 @@ import ProductGrid from "../components/ProductGrid";
 import { Button } from "../components/ui/button";
 import Shopping from "../assets/shopping.svg";
 import Navbar from "./Client/Navbar";
-import NoData from "../assets/Nodata.svg";
+import NoData from "../assets/nodata.svg";
 import {
   useGetCategoriesQuery,
   useGetCategoryProductsQuery,
