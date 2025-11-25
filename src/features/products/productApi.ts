@@ -4,7 +4,7 @@ import type { Product } from '../../types/Product';
 export const productsApi = createApi({
   reducerPath: 'productsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_BASE || 'http://localhost:8000',
+    baseUrl: 'http://localhost:8000',
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('token');
       if (token) headers.set('Authorization', `Bearer ${token}`);

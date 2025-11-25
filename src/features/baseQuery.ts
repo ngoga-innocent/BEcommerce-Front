@@ -5,7 +5,7 @@ import { logout } from '../features/auth/authSlice';
 import { url } from '../url';
 
 const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_BASE || url,
+  baseUrl: url,
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('token');
     if (token) headers.set('Authorization', `Bearer ${token}`);

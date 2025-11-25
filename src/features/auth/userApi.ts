@@ -5,7 +5,7 @@ import type { User } from '../../types/user';
 export const usersApi = createApi({
   reducerPath: 'usersApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_BASE || url,
+    baseUrl:  url,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem('token');
       if (token) headers.set('Authorization', `Bearer ${token}`);

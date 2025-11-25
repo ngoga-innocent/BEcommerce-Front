@@ -37,7 +37,7 @@ interface RegisterResponse {
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE }),
+  baseQuery: fetchBaseQuery({ baseUrl: url }),
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (credentials) => ({

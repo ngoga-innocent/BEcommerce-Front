@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Product } from "../types/Product";
 import { useCreateProductMutation, useUpdateProductMutation } from "../features/products/productApi";
 
