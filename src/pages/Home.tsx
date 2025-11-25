@@ -3,7 +3,7 @@ import { useGetProductsQuery } from "../features/products/productApi";
 import ProductCard from "../components/ProductCard";
 import ProductGrid from "../components/ProductGrid";
 import { Button } from "../components/ui/button";
-import Shopping from "../assets/shopping.svg";
+import Shopping from "../assets/Shopping.svg";
 import Navbar from "./Client/Navbar";
 import NoData from "../assets/nodata.svg";
 import {
