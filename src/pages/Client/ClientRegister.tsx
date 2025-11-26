@@ -15,6 +15,7 @@ import { Button } from "../../components/ui/button";
 import Login from "../../assets/login.svg";
 import { NAME } from "@/Name";
 import { toast } from "react-toastify";
+import Navbar from "./Navbar";
 export default function ClientRegister() {
   const [username, setUsername] = useState("");
   const [phone_number, setPhoneNumber] = useState("");
@@ -48,6 +49,7 @@ export default function ClientRegister() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#1b1b1b] via-[#222] to-[#1a1a1a] px-4 relative">
+      <Navbar />
       <div className="absolute top-10 left-20 w-60 h-60 bg-orange-400/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-20 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
 

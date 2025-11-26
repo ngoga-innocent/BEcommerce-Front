@@ -128,3 +128,18 @@
   padding-left: 10%;
   animation: marquee 45s linear infinite;
 }
+.logo-name {
+    font-weight: 800;
+    font-size: 2rem;
+    background: linear-gradient(270deg, #facc15, #f97316, #ec4899, #8b5cf6);
+    background-size: 800% 800%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 5s ease infinite;
+  }
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }

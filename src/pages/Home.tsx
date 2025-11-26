@@ -13,11 +13,14 @@ import {
 import Footer from "../components/Footer";
 import Spinner from "../components/LoadingSpinner";
 import { useGetAdsQuery } from "@/features/products/adsApi";
+import { useNavigate } from "react-router-dom";
+
 export default function HomePage() {
   const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   );
+  const navigate=useNavigate();
   // console.log("selected category", selectedCategory);
   const { data: activeAd, isLoading: adLoading } = useGetAdsQuery();
   const { data: categoryProducts, isLoading: categoryLoading } =
@@ -62,8 +65,8 @@ export default function HomePage() {
               Shop the best products with ease. Browse, contact, and get your
               favorites today!
             </p>
-            <Button className="bg-linear-to-r from-yellow-400 to-orange-500 text-black font-bold shadow-lg hover:opacity-90">
-              Shop Now
+            <Button onClick={()=>navigate("/upload")} className="bg-linear-to-r from-yellow-400 to-orange-500 text-black font-bold shadow-lg hover:opacity-90">
+              Add Your Products Now
             </Button>
           </div>
           <div className="md:w-1/2">
