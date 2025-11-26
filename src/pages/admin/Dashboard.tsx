@@ -17,12 +17,14 @@ import ProductGrid from "../../components/ProductGrid";
 import type { Product } from "../../types/Product";
 import AdminLayout from "./AdminLayout";
 import { useNavigate } from "react-router-dom";
+import Spinner from "@/components/LoadingSpinner";
 export default function AdminDashboard() {
   // const dispatch = useAppDispatch();
   const { data: products, isLoading, isError } = useGetProductsQuery();
-  const [deleteProduct,{isLoading:deleteLoading}] = useDeleteProductMutation();
+  const [deleteProduct, { isLoading: deleteLoading }] =
+    useDeleteProductMutation();
   const [loadingId, setLoadingId] = useState<string | null>(null);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
     setLoadingId(slug);
@@ -37,12 +39,20 @@ export default function AdminDashboard() {
   };
 
   if (isLoading)
-    return <div className="text-center py-20 text-yellow-400">Loading...</div>;
+    return (
+      <AdminLayout>
+        <div className="text-center py-20">
+          <Spinner text="Loading ..." size="md" />
+        </div>
+      </AdminLayout>
+    );
   if (isError)
     return (
-      <div className="text-center py-20 text-red-500">
-        Error loading products
-      </div>
+      <AdminLayout>
+        <div className="text-center py-20 text-red-500">
+          Error loading products
+        </div>
+      </AdminLayout>
     );
 
   return (
@@ -53,7 +63,6 @@ export default function AdminDashboard() {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-yellow-400 to-orange-500">
             Admin Dashboard
           </h1>
-         
         </header>
 
         {/* QUICK STATS */}
@@ -87,10 +96,16 @@ export default function AdminDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Button onClick={()=>navigate('/admin/products')} className="w-full mb-2 bg-linear-to-r from-orange-500 to-yellow-500 hover:opacity-90 text-black">
+              <Button
+                onClick={() => navigate("/admin/products")}
+                className="w-full mb-2 bg-linear-to-r from-orange-500 to-yellow-500 hover:opacity-90 text-black"
+              >
                 Add New Product
               </Button>
-              <Button onClick={()=>navigate('/admin/users')} className="w-full bg-orange-700 hover:bg-orange-800 text-white">
+              <Button
+                onClick={() => navigate("/admin/users")}
+                className="w-full bg-orange-700 hover:bg-orange-800 text-white"
+              >
                 View Users
               </Button>
             </CardContent>
