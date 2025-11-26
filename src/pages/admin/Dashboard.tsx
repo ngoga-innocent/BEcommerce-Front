@@ -20,14 +20,14 @@ import { useNavigate } from "react-router-dom";
 export default function AdminDashboard() {
   // const dispatch = useAppDispatch();
   const { data: products, isLoading, isError } = useGetProductsQuery();
-  const [deleteProduct] = useDeleteProductMutation();
-  const [loadingId, setLoadingId] = useState<number | null>(null);
+  const [deleteProduct,{isLoading:deleteLoading}] = useDeleteProductMutation();
+  const [loadingId, setLoadingId] = useState<string | null>(null);
   const navigate=useNavigate();
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
-    setLoadingId(id);
+    setLoadingId(slug);
     try {
-      await deleteProduct(id).unwrap();
+      await deleteProduct(slug).unwrap();
       alert("Product deleted successfully");
     } catch (err) {
       alert("Error deleting product");
@@ -107,11 +107,11 @@ export default function AdminDashboard() {
               <div key={product.id} className="relative">
                 <ProductCard product={product} />
                 <button
-                  onClick={() => handleDelete(product.id)}
-                  disabled={loadingId === product.id}
+                  onClick={() => handleDelete(product.slug)}
+                  disabled={loadingId === product.slug}
                   className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition"
                 >
-                  {loadingId === product.id ? "Deleting..." : "Delete"}
+                  {loadingId === product.slug ? "Deleting..." : "Delete"}
                 </button>
               </div>
             ))}

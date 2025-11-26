@@ -21,7 +21,7 @@ export default function FashionCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-row items-center justify-between mt-3 mb-2">
-        <p className="text-black  font-bold text-sm">BIF {product.price}</p>
+        <p className="text-black  font-bold text-sm">{product.currency} {product.price}</p>
 
         <div className="flex gap-2">
           <a

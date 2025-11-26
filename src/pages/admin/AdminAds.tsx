@@ -19,12 +19,13 @@ import { Upload, Trash2, Pencil } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 import { Ad } from "@/types/ads";
 import { toast } from "react-toastify";
+import Spinner from "@/components/LoadingSpinner";
 
 export default function AdminAdsPage() {
   const { data: ads = [], isLoading } = useGetAdsQuery();
-  const [createAd] = useCreateAdMutation();
-  const [updateAd] = useUpdateAdMutation();
-  const [deleteAd] = useDeleteAdMutation();
+  const [createAd,{isLoading:createAdLoading}] = useCreateAdMutation();
+  const [updateAd,{isLoading:updateAdLoading}] = useUpdateAdMutation();
+  const [deleteAd,{isLoading:deleteAdLoading}] = useDeleteAdMutation();
 
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Ad>();
@@ -65,7 +66,8 @@ export default function AdminAdsPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 relative">
+        {updateAdLoading || createAdLoading || deleteAdLoading && <Spinner text="loading..." size="md" />}
         <div className="flex justify-between items-center bg-white/40 backdrop-blur rounded-2xl p-4 shadow">
           <h1 className="text-3xl font-bold text-gray-800">
             Manage Advertisements
@@ -137,7 +139,9 @@ export default function AdminAdsPage() {
                     variant="destructive"
                     size="sm"
                     className="rounded-xl"
-                    onClick={() => deleteAd(ad.id)}
+                    onClick={() => {
+                        if (!confirm("Are you sure you want to delete this category?")) return;
+                        deleteAd(ad.id)}}
                   >
                     <Trash2 className="w-4 h-4 mr-1" /> Delete
                   </Button>

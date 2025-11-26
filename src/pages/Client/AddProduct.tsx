@@ -25,7 +25,7 @@ export default function UploadProduct() {
   const [category, setCategory] = useState<string>("");
   const [whatsapp_number, setWhatsappNumber] = useState<string>("");
   const [contact_phone, setContactNumber] = useState<string>("");
-
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("USD");
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [additionalImages, setAdditionalImages] = useState<File[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -55,7 +55,7 @@ export default function UploadProduct() {
     formData.append("description", description);
     formData.append("price", price.toString());
     formData.append("category", category);
-    
+    formData.append("currency", selectedCurrency);
     formData.append("whatsapp_number", whatsapp_number);
     formData.append("contact_phone", contact_phone);    
 
@@ -72,7 +72,7 @@ export default function UploadProduct() {
       setErrorMsg(err?.data?.detail || "Failed to upload product.");
     }
   };
-
+  const currency=["USD","EUR","BIF"];
   return (
     <div className="min-h-screen bg-yellow-50 text-gray-900">
       <Navbar />
@@ -113,7 +113,21 @@ export default function UploadProduct() {
                   className="bg-gray-50"
                 />
               </div>
-
+            <div>
+                <label className="block text-gray-700 mb-1">Currency *</label>
+                <select
+                  value={selectedCurrency}
+                  onChange={(e) => setSelectedCurrency(e.target.value)}
+                  className="w-full bg-gray-50 border rounded px-3 py-2"
+                >
+                  <option value="">Select Category</option>
+                  {currency?.map((cur,idx) => (
+                    <option key={idx} value={cur}>
+                      {cur}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label className="block text-gray-700 mb-1">Price (BIF) *</label>
                 <Input

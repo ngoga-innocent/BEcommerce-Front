@@ -3,14 +3,15 @@ import type { Product } from "../../types/Product";
 import { Heart } from "lucide-react";
 
 export default function FancyProductCard({ product }: { product: Product }) {
-  const waLink = `https://wa.me/${product.whatsapp_number}?text=${encodeURIComponent(
-    `Hello, I'm interested in ${product.title}`
-  )}`;
+  const waLink = `https://wa.me/${
+    product.whatsapp_number
+  }?text=${encodeURIComponent(`Hello, I'm interested in ${product.title}`)}`;
 
   return (
-    <div className="relative w-full bg-linear-to-b from-[#fefbff] to-[#f8f4ff] rounded-3xl p-4 shadow-xl 
-                    border border-white overflow-hidden transition hover:shadow-2xl hover:-translate-y-1">
-
+    <div
+      className="relative w-full bg-linear-to-b from-[#fefbff] to-[#f8f4ff] rounded-3xl p-4 shadow-xl 
+                    border border-white overflow-hidden transition hover:shadow-2xl hover:-translate-y-1"
+    >
       {/* Heart Icon */}
       <button className="absolute top-4 right-4 bg-white/60 backdrop-blur-md p-2 rounded-full shadow-sm hover:scale-110 transition">
         <Heart size={20} className="text-gray-600" />
@@ -35,12 +36,11 @@ export default function FancyProductCard({ product }: { product: Product }) {
 
       {/* Price */}
       <p className="text-2xl font-bold text-gray-900 mt-3">
-        BIF {product.price}
+        {product.currency} {product.price}
       </p>
 
       {/* Buttons */}
       <div className="flex items-center justify-between mt-4 gap-2">
-
         <a
           href={waLink}
           target="_blank"

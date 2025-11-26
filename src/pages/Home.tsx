@@ -47,7 +47,7 @@ export default function HomePage() {
           {activeAd?.slice(0, 1)?.map((ad) => (
             <span
               key={ad.id}
-              className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.6)] Capitalize"
+              className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(0,0,0,0.3)] Capitalize"
             >
               {ad?.text}
             </span>

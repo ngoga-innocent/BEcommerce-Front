@@ -35,9 +35,9 @@ import { toast } from "react-toastify";
 export default function AdminProductPage() {
   const { data: products, isLoading, isError } = useGetProductsQuery();
   const { data: categories } = useGetCategoriesQuery();
-  const [createProduct] = useCreateProductMutation();
-  const [updateProduct] = useUpdateProductMutation();
-  const [deleteProduct] = useDeleteProductMutation();
+  const [createProduct,{isLoading:createLoading}] = useCreateProductMutation();
+  const [updateProduct,{isLoading:updateLoading}] = useUpdateProductMutation();
+  const [deleteProduct,{isLoading:deleteLoading}] = useDeleteProductMutation();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [viewProduct, setViewProduct] = useState<any | null>(null);
@@ -127,11 +127,13 @@ export default function AdminProductPage() {
   };
 
   // -------------------- Delete Product --------------------
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (slug: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
     try {
-      await deleteProduct(id).unwrap();
+      await deleteProduct(slug).unwrap();
+      toast.success("Product deleted successfully");
     } catch (err) {
+      toast.error("Error deleting product");
       console.error(err);
     }
   };
@@ -191,7 +193,7 @@ export default function AdminProductPage() {
                   {p.category_data?.name}
                 </div>
                 <div className="font-bold text-orange-600 text-sm sm:text-base mb-3">
-                  BIF{p.price}
+                  {p.currency} {p.price}
                 </div>
                 <div className="flex flex-wrap gap-2 justify-end">
                   <Button
@@ -208,15 +210,16 @@ export default function AdminProductPage() {
                     className="flex items-center gap-1 text-yellow-600 w-full sm:w-auto"
                     onClick={() => handleOpenEdit(p)}
                   >
-                    <Edit size={16} /> Edit
+                    <Edit size={16} /> {updateLoading ? "Saving..." : "Edit"}
                   </Button>
                   <Button
                     size="sm"
+                    disabled={deleteLoading}
                     variant="destructive"
                     className="flex items-center gap-1 w-full sm:w-auto"
-                    onClick={() => handleDelete(p.id)}
+                    onClick={() => handleDelete(p.slug)}
                   >
-                    <Trash size={16} /> Delete
+                    <Trash size={16} /> {deleteLoading ? "Deleting..." : "Delete"}
                   </Button>
                 </div>
               </div>

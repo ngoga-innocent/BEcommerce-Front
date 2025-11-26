@@ -34,7 +34,7 @@ const ProductPage = () => {
     <div className="min-h-screen bg-yellow-50 text-gray-900">
       <Navbar />
 
-      <section className="max-w-7xl mx-auto px-4 md:px-6 py-20 flex flex-col lg:flex-row lg:items-center gap-10">
+      <section className="max-w-7xl mx-auto px-4 md:px-6 py-20 flex flex-col lg:flex-row  gap-10">
         {/* Image Slider */}
         <div className="lg:w-1/2">
           {/* Main Slider */}
@@ -52,7 +52,7 @@ const ProductPage = () => {
                 <img
                   src={imgUrl}
                   alt={`${product.title} ${idx}`}
-                  className="w-full h-[400px] md:h-[500px] lg:h-[600px] object-cover rounded-2xl"
+                  className="w-full h-[60vh] md:h-[60vh] lg:h-[60vh] object-cover rounded-2xl"
                 />
               </SwiperSlide>
             ))}
@@ -84,7 +84,7 @@ const ProductPage = () => {
         <div className="lg:w-1/2 flex flex-col gap-6">
           <h1 className="text-3xl md:text-4xl font-bold">{product.title}</h1>
           <p className="text-gray-700">{product.description}</p>
-          <p className="text-2xl font-semibold text-amber-500">BIF {product.price}</p>
+          <p className="text-2xl font-semibold text-amber-500">{product.currency} {product.price}</p>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             <button className="px-6 py-3 bg-amber-400 hover:bg-amber-500 rounded-lg font-bold shadow-md transition">

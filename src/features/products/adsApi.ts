@@ -32,7 +32,7 @@ export const adsApi = createApi({
 
     deleteAd: builder.mutation({
       query: (id) => ({
-        url: `/api/products/ads/${id}/`,
+        url: `/api/ads/${id}/`,
         method: "DELETE",
       }),
       invalidatesTags: ["Ads"],

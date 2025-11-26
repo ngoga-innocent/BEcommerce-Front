@@ -119,14 +119,14 @@
   }
 }
 @keyframes marquee {
-  0% { transform: translateX(90%); }
-  100% { transform: translateX(-90%); }
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 
 .animate-marquee {
   display: inline-block;
-  padding-left: 10%;
-  animation: marquee 45s linear infinite;
+  padding-left: 20%;
+  animation: marquee 20s linear infinite;
 }
 .logo-name {
     font-weight: 800;

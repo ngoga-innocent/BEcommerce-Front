@@ -39,9 +39,9 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-    deleteProduct: builder.mutation<{ success: boolean; id: number }, number>({
-      query: (id) => ({
-        url: `/api/products/${id}/`,
+    deleteProduct: builder.mutation<{ success: boolean; slug: string }, string>({
+      query: (slug) => ({
+        url: `/api/products/${slug}/`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Products'],

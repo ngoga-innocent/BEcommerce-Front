@@ -12,6 +12,7 @@ export interface Product {
   whatsapp_number: string;
   active: boolean;
   category: number;
+  currency: string;
   product_images: ProductImage[] | null;
   category_data: {
     id: number;

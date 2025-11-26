@@ -2,6 +2,7 @@ import { FaPhone, FaWhatsapp } from "react-icons/fa";
 import type { Product }  from "../../types/Product";
 import { useNavigate } from "react-router-dom";
 export default function TechCard({ product }: { product: Product }) {
+  
     const navigate=useNavigate();
   return (
     <div onClick={()=>navigate(`/product/${product?.slug}`)} className="bg-white relative border border-pink-100 rounded-2xl shadow-md p-2 hover:shadow-lg transition">
@@ -20,7 +21,7 @@ export default function TechCard({ product }: { product: Product }) {
           </div>
     
           <div className="flex flex-row items-center justify-between mt-3 mb-2">
-            <p className="text-black  font-bold text-sm">BIF {product.price}</p>
+            <p className="text-black  font-bold text-sm">{product.currency} {product.price}</p>
     
             <div className="flex gap-2">
               <a
