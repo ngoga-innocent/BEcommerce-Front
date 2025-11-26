@@ -30,7 +30,7 @@ export default function ProductForm({ product, onClose }: ProductFormProps) {
       if (thumbnail) formData.append("thumbnail", thumbnail);
 
       if (product) {
-        await updateProduct({ id: product.id, data: formData }).unwrap();
+        await updateProduct({ slug: product.slug, data: formData }).unwrap();
       } else {
         await addProduct(formData).unwrap();
       }
