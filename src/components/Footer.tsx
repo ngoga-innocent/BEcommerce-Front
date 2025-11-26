@@ -1,3 +1,4 @@
+import {NAME} from "@/Name";
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-200 py-10">
@@ -46,7 +47,7 @@ export default function Footer() {
       </div>
 
       <div className="mt-8 border-t border-gray-700 pt-4 text-center text-gray-500 text-sm">
-        &copy; {new Date().getFullYear()} ShopEase. All rights reserved.
+        &copy; {new Date().getFullYear()} {NAME}. All rights reserved.
       </div>
     </footer>
   );

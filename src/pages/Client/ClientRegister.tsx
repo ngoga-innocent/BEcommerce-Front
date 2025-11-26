@@ -13,6 +13,7 @@ import {
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import Login from "../../assets/login.svg";
+import { NAME } from "@/Name";
 import { toast } from "react-toastify";
 export default function ClientRegister() {
   const [username, setUsername] = useState("");
@@ -124,7 +125,7 @@ export default function ClientRegister() {
             </form>
             <Link to='/login' className="text-blue-200 italic text-sm font-bold cursor-pointer"> Already have an Account?Click here to Login Now!!</Link>
             <p className="mt-6 text-gray-400 text-center text-xs">
-              © 2025 Golden E-Commerce
+              © 2025 {NAME}. All rights reserved.
             </p>
           </CardContent>
         </div>

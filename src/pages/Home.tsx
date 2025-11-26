@@ -12,19 +12,20 @@ import {
 } from "../features/products/categoriesApi";
 import Footer from "../components/Footer";
 import Spinner from "../components/LoadingSpinner";
+import { useGetAdsQuery } from "@/features/products/adsApi";
 export default function HomePage() {
   const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   );
   // console.log("selected category", selectedCategory);
-
+  const { data: activeAd, isLoading: adLoading } = useGetAdsQuery();
   const { data: categoryProducts, isLoading: categoryLoading } =
     useGetCategoryProductsQuery(
       selectedCategory || "",
       { skip: !selectedCategory } // skip the query if no category is selected
     );
-
+  console.log("Active Ad", activeAd);
   const { data: categories } = useGetCategoriesQuery();
   // Inside component
   const displayedProducts = selectedCategory
@@ -38,6 +39,19 @@ export default function HomePage() {
         <Navbar />
       </div>
       {/* Hero Section */}
+      {activeAd && activeAd?.length >0 && <div className="overflow-hidden fixed top-18 w-full z-50  shadow-md py-2">
+        <div className="whitespace-nowrap animate-marquee flex items-center">
+          {activeAd?.slice(0, 1)?.map((ad) => (
+            <span
+              key={ad.id}
+              className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-white drop-shadow-[2px_2px_4px_rgba(0,0,0,0.6)] Capitalize"
+            >
+              {ad?.text}
+            </span>
+          ))}
+        </div>
+      </div>}
+
       <section className="relative bg-linear-to-r from-orange-400 to-yellow-400 text-white py-20 px-6 rounded-b-3xl shadow-lg mb-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
           <div className="md:w-1/2">

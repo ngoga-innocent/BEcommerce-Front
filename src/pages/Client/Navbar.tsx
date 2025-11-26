@@ -1,6 +1,7 @@
 import Logo from "../../assets/Shopping.svg";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { NAME } from "@/Name";
 
 export default function Navbar() {
   const location = useLocation();
@@ -31,7 +32,7 @@ export default function Navbar() {
       {/* Logo */}
       <div className="flex items-center gap-2">
         <img src={Logo} alt="Logo" className="w-12 h-12 rounded-full" />
-        <h1 className="font-bold text-lg">ShopHub</h1>
+        <h1 className="font-bold text-lg">{NAME}</h1>
       </div>
 
       {/* Middle Links */}

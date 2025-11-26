@@ -118,3 +118,13 @@
     @apply bg-background text-foreground;
   }
 }
+@keyframes marquee {
+  0% { transform: translateX(90%); }
+  100% { transform: translateX(-90%); }
+}
+
+.animate-marquee {
+  display: inline-block;
+  padding-left: 10%;
+  animation: marquee 45s linear infinite;
+}

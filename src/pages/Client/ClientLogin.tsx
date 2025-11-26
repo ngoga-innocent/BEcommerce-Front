@@ -3,11 +3,12 @@ import { useLoginMutation } from "../../features/auth/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { loginSuccess } from "../../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-
+import {NAME} from "@/Name"
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import Login from "../../assets/login.svg"
+import Navbar from "./Navbar";
 export default function ClienLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,6 +33,7 @@ export default function ClienLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#1b1b1b] via-[#222] to-[#1a1a1a] px-4 relative">
+      <Navbar />
       {/* Gold glowing background */}
       <div className="absolute top-10 left-20 w-60 h-60 bg-orange-400/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-20 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
@@ -101,7 +103,7 @@ export default function ClienLogin() {
             </form>
             <Link to='/register' className="text-blue-200 italic text-sm font-bold cursor-pointer text-center"> No Account Yet? Click Here to Create One</Link>
             <p className="mt-6 text-gray-400 text-center text-xs">
-              © 2025 Golden E-Commerce 
+              © 2025 {NAME}. All rights reserved.
             </p>
           </CardContent>
         </div>

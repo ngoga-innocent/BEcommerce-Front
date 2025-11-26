@@ -3,7 +3,7 @@ import { useLoginMutation } from "../../features/auth/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { loginSuccess } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-
+import {NAME} from "@/Name"
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
@@ -102,7 +102,7 @@ export default function AdminLogin() {
             </form>
 
             <p className="mt-6 text-gray-400 text-center text-xs">
-              © 2025 Golden E-Commerce Admin
+              © 2025 {NAME}. All rights reserved.
             </p>
           </CardContent>
         </div>

@@ -31,9 +31,9 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-    updateProduct: builder.mutation<Product, { id: number; data: FormData }>({
-      query: ({ id, data }) => ({
-        url: `/api/products/${id}/`,
+    updateProduct: builder.mutation<Product, { slug: string; data: FormData }>({
+      query: ({ slug, data }) => ({
+        url: `/api/products/${slug}/`,
         method: 'PUT',
         body: data,
       }),

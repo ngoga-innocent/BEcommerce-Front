@@ -11,6 +11,7 @@ import ClienLogin from "./pages/Client/ClientLogin";
 import ClientRegister from "./pages/Client/ClientRegister";
 import UploadProduct from "./pages/Client/AddProduct";
 import AdminUserPage from "./pages/admin/AdminUserPage";
+import AdminAdsPage from "./pages/admin/AdminAds";
 // Protected Route for Admin
 
 const AdminRoute = ({ children }: any) => {
@@ -79,6 +80,15 @@ export default function AppRoutes() {
           element={
             <AdminRoute>
               <AdminProductPage />
+              {/* <AdminProductPage /> */}
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/announcement"
+          element={
+            <AdminRoute>
+              <AdminAdsPage />
               {/* <AdminProductPage /> */}
             </AdminRoute>
           }

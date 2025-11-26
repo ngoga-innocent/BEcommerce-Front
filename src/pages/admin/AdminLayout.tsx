@@ -5,7 +5,7 @@ import { Button } from "../../components/ui/button";
 import { useAppDispatch } from "../../store/hooks";
 import { logout } from "../../features/auth/authSlice";
 import { FiGrid, FiBox, FiUsers, FiLogOut } from "react-icons/fi";
-import { FaTags } from "react-icons/fa";
+import { FaHornbill, FaTags } from "react-icons/fa";
 interface AdminLayoutProps {
   children: ReactNode;
 }
@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     {name:'Categories',path:'/admin/categories',icon:<FaTags  size={20}/>},
     { name: "Products", path: "/admin/products", icon: <FiBox size={20} /> },
     { name: "Users", path: "/admin/users", icon: <FiUsers size={20} /> },
-    // { name: "Settings", path: "/admin/settings", icon: <FiSettings size={20} /> },
+    { name: "announcement", path: "/admin/announcement", icon: <FaHornbill size={20} /> },
   ];
 
   return (

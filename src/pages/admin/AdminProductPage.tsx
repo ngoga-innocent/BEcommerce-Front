@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { toast } from "react-toastify";
 
 export default function AdminProductPage() {
   const { data: products, isLoading, isError } = useGetProductsQuery();
@@ -46,6 +47,7 @@ export default function AdminProductPage() {
     title: "",
     description: "",
     price: "",
+    slug: "",
     category: "",
     thumbnail: null as File | null,
     product_images: [] as File[],
@@ -60,6 +62,7 @@ export default function AdminProductPage() {
       title: "",
       description: "",
       price: "",
+      slug: "",
       category: "",
       thumbnail: null,
       product_images: [],
@@ -74,6 +77,7 @@ export default function AdminProductPage() {
     setFormState({
       id: product.id,
       title: product.title,
+      slug: product?.slug,
       description: product.description,
       price: product.price,
       category: product.category?.id || "",
@@ -95,20 +99,29 @@ export default function AdminProductPage() {
     data.append("whatsapp_number", formState.whatsapp_number);
     data.append("contact_phone", formState.contact_phone);
 
-    if (formState.thumbnail) data.append("thumbnail", formState.thumbnail);
+    if (formState.thumbnail instanceof File) {
+      data.append("thumbnail", formState.thumbnail);
+    }
 
+    // ✨ ONLY send NEW product images
     formState.product_images.forEach((file) => {
-      data.append("images", file); // "images" must match DRF field
+      if (file instanceof File) {
+        data.append("images", file);
+      }
     });
 
     try {
-      if (formState.id) {
-        await updateProduct({ id: formState.id, data }).unwrap();
+      if (formState.slug) {
+        await updateProduct({ slug: formState.slug, data }).unwrap();
       } else {
         await createProduct(data).unwrap();
       }
+      toast.success(
+        `Product ${formState.slug ? "updated" : "created"} successfully`
+      );
       setDialogOpen(false);
     } catch (err) {
+      toast.error("Error saving product");
       console.error(err);
     }
   };
