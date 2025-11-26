@@ -62,7 +62,7 @@ export default function AdminAdsPage() {
     setOpen(true);
   };
 
-  if (isLoading) return <p className="p-4">Loading...</p>;
+  if (isLoading) return <AdminLayout><Spinner text="Loading ads..." size="lg" /></AdminLayout>;
 
   return (
     <AdminLayout>
