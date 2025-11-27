@@ -12,6 +12,8 @@ import ClientRegister from "./pages/Client/ClientRegister";
 import UploadProduct from "./pages/Client/AddProduct";
 import AdminUserPage from "./pages/admin/AdminUserPage";
 import AdminAdsPage from "./pages/admin/AdminAds";
+import MyProducts from "./pages/Client/MyProducts";
+import EditProduct from "./pages/Client/UpdateProduct";
 // Protected Route for Admin
 
 const AdminRoute = ({ children }: any) => {
@@ -46,6 +48,22 @@ export default function AppRoutes() {
           element={
             <UserAuthenticated>
               <UploadProduct />
+            </UserAuthenticated>
+          }
+        />
+        <Route
+          path="/my-products"
+          element={
+            <UserAuthenticated>
+              <MyProducts />
+            </UserAuthenticated>
+          }
+        />
+        <Route
+          path="/products/edit/:slug"
+          element={
+            <UserAuthenticated>
+              <EditProduct />
             </UserAuthenticated>
           }
         />

@@ -23,6 +23,10 @@ export const productsApi = createApi({
       providesTags: ['Products'],
       // refetchOnMountOrArgChange: true,
     }),
+    getMyProducts: builder.query<Product[], void>({
+      query: () => '/api/products/my/',
+      providesTags: ['Products'],
+    }),
     createProduct: builder.mutation<Product, FormData>({
       query: (data) => ({
         url: '/api/products/',
@@ -54,5 +58,6 @@ export const {
   useGetProductQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
+  useGetMyProductsQuery,
   useDeleteProductMutation,
 } = productsApi;

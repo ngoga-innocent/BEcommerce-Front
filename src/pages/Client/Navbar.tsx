@@ -66,6 +66,17 @@ export default function Navbar() {
             </Link>
           )
         )}
+        {user && <Link
+              
+              to="/my-products"
+              className={`px-3 py-1 rounded-md transition-all ${
+                location.pathname === "/my-products"
+                  ? "text-yellow-600 font-semibold"
+                  : "text-gray-700 hover:text-yellow-600"
+              }`}
+            >
+              My Products
+            </Link>}
       </div>
 
       {/* Right side - Auth/Profile */}
