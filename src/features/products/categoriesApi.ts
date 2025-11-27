@@ -22,7 +22,7 @@ export const categoryApi = createApi({
         }),
         updateCategory: builder.mutation<ProductCategory, { slug: string; name: string }>({
             query: ({ slug, name }) => ({
-                url: `categories/${slug}/`,
+                url: `api/categories/${slug}/`,
                 method: "PUT",
                 body: { name },
             }),
@@ -30,13 +30,13 @@ export const categoryApi = createApi({
         }),
         deleteCategory: builder.mutation<{ slug: string }, string>({
             query: (slug) => ({
-                url: `categories/${slug}/`,
+                url: `api/categories/${slug}/`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Category"],
         }),
         getCategoryProducts: builder.query<any[], string>({
-            query: (slug) => `categories/${slug}/products/`,
+            query: (slug) => `api/categories/${slug}/products/`,
             providesTags: ["Product"], // optional for caching
         }),
     }),

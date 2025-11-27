@@ -1,21 +1,22 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
 import {
   useGetUsersQuery,
   useAddUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
-} from '../../features/auth/userApi';
-import AdminLayout from './AdminLayout';
+} from "../../features/auth/userApi";
+import AdminLayout from "./AdminLayout";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '../../components/ui/dialog';
-import { Input } from '../../components/ui/input';
-import { Button } from '../../components/ui/button';
-import { Checkbox } from '../../components/ui/checkbox';
-import { Edit, Trash, UserPlus } from 'lucide-react';
+} from "../../components/ui/dialog";
+import { Input } from "../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Checkbox } from "../../components/ui/checkbox";
+import { Edit, Trash, UserPlus } from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function AdminUserPage() {
   const { data: users, isLoading, isError } = useGetUsersQuery();
@@ -73,12 +74,30 @@ export default function AdminUserPage() {
     try {
       if (isEditing) {
         await updateUser({ id: formState.id, data: formState }).unwrap();
+        toast.success("User updated successfully");
       } else {
         await addUser(formState).unwrap();
+        toast.success("User created successfully");
       }
       setDialogOpen(false);
-    } catch (err) {
-      console.error(err);
+    } catch (error: any) {
+      if (error.data && error.data) {
+        const errors = error.data;
+
+        // Loop through each field error
+        Object.keys(errors).forEach((field) => {
+          const messages = errors[field];
+
+          if (Array.isArray(messages)) {
+            messages.forEach((msg) => toast.error(`${field}: ${msg}`));
+          } else {
+            // Sometimes backend sends non-array errors
+            toast.error(`${field}: ${messages}`);
+          }
+        });
+      } else {
+        toast.error("Something went wrong. Try again.");
+      }
     }
   };
 
@@ -102,14 +121,15 @@ export default function AdminUserPage() {
   if (isError)
     return (
       <AdminLayout>
-        <div className="py-20 text-center text-red-500">Error loading users</div>
+        <div className="py-20 text-center text-red-500">
+          Error loading users
+        </div>
       </AdminLayout>
     );
 
   return (
     <AdminLayout>
       <div className="container mx-auto px-3 sm:px-6 py-4">
-
         {/* ----------- HEADER ----------- */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <h1 className="text-3xl font-bold text-gray-200">Users</h1>
@@ -139,14 +159,14 @@ export default function AdminUserPage() {
           {filteredUsers.map((user: any) => (
             <div
               key={user.id}
-              className="bg-gray-800 p-4 rounded-xl shadow-md flex flex-col justify-between"
+              className="bg-gray-300 p-4 rounded-xl shadow-md flex flex-col justify-between"
             >
               <div>
-                <div className="text-gray-200 font-semibold text-lg">
+                <div className="text-gray-900 font-semibold text-lg">
                   {user.username}
                 </div>
-                <div className="text-gray-400 text-sm">{user.email}</div>
-                <div className="text-gray-400 text-sm">{user.phone_number}</div>
+                <div className="text-gray-900 text-sm">{user.email}</div>
+                <div className="text-gray-900 text-sm">{user.phone_number}</div>
               </div>
 
               <div className="flex gap-2 mt-4 justify-end">
@@ -174,7 +194,6 @@ export default function AdminUserPage() {
         {/* ----------- ADD / EDIT MODAL ----------- */}
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogContent className="sm:max-w-[420px] max-w-full p-4 bg-gray-300">
-
             <DialogHeader>
               <DialogTitle className="text-xl text-zinc-900 font-bold">
                 {isEditing ? "Edit User" : "Add New User"}
@@ -250,7 +269,6 @@ export default function AdminUserPage() {
                 Cancel
               </Button>
             </div>
-
           </DialogContent>
         </Dialog>
       </div>

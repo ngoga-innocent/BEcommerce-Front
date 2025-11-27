@@ -33,7 +33,7 @@ export default function HomePage() {
   // Inside component
   const displayedProducts = selectedCategory
     ? categoryProducts // only when a category is selected
-    : products?.slice(4); // all products except first 4
+    : products; // all products except first 4
 
   // const [otherProducts,setOtherProducts]=React.useState(products?.slice(4)||[]);
   return (
@@ -172,14 +172,14 @@ export default function HomePage() {
         </p>
         <div className="flex justify-center gap-6 flex-wrap">
           <a
-            href="https://wa.me/+25769089733"
+            href="https://wa.me/+25765356635"
             target="_blank"
             className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition transform hover:-translate-y-1 hover:shadow-lg"
           >
             WhatsApp
           </a>
           <a
-            href="tel:+25769089733"
+            href="tel:+25725765356635"
             target="_blank"
             className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg shadow-md transition transform hover:-translate-y-1 hover:shadow-lg"
           >

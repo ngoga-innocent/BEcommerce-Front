@@ -2,7 +2,7 @@ import { FaPhone, FaWhatsapp } from "react-icons/fa";
 import type { Product } from "../../types/Product";
 import { useNavigate } from "react-router-dom";
 export default function FashionCard({ product }: { product: Product }) {
-    // console.log("product",product);
+    console.log("product",product);
     const navigate=useNavigate();
   return (
     <div onClick={()=>navigate(`/product/${product?.slug}`)} className="bg-white relative border border-pink-100 rounded-2xl shadow-md p-2 hover:shadow-lg transition">

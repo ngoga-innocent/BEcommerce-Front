@@ -114,7 +114,7 @@ export default function UploadProduct() {
                 />
               </div>
             <div>
-                <label className="block text-gray-700 mb-1">Currency *</label>
+                <label className="block text-gray-700 mb-1">Currency </label>
                 <select
                   value={selectedCurrency}
                   onChange={(e) => setSelectedCurrency(e.target.value)}
@@ -129,7 +129,7 @@ export default function UploadProduct() {
                 </select>
               </div>
               <div>
-                <label className="block text-gray-700 mb-1">Price (BIF) *</label>
+                <label className="block text-gray-700 mb-1">Price ({selectedCurrency}) *</label>
                 <Input
                   type="number"
                   value={price}
