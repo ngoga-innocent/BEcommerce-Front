@@ -42,12 +42,12 @@ export default function HomePage() {
         <Navbar />
       </div>
       {/* Hero Section */}
-      {activeAd && activeAd?.length >0 && <div className="overflow-hidden fixed top-18 w-full z-50  shadow-md py-2">
+      {activeAd && activeAd?.length >0 && <div className="overflow-hidden bg-amber-600 fixed top-18 w-full z-50  shadow-md py-2">
         <div className="whitespace-nowrap animate-marquee flex items-center">
           {activeAd?.slice(0, 1)?.map((ad) => (
             <span
               key={ad.id}
-              className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(0,0,0,0.3)] Capitalize"
+              className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(255,255,255,0.4)] Capitalize"
             >
               {ad?.text}
             </span>
