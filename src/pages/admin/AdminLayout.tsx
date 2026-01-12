@@ -6,6 +6,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { logout } from "../../features/auth/authSlice";
 import { FiGrid, FiBox, FiUsers, FiLogOut } from "react-icons/fi";
 import { FaHornbill, FaTags } from "react-icons/fa";
+import { Settings } from "lucide-react";
 interface AdminLayoutProps {
   children: ReactNode;
 }
@@ -21,6 +22,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: "Products", path: "/admin/products", icon: <FiBox size={20} /> },
     { name: "Users", path: "/admin/users", icon: <FiUsers size={20} /> },
     { name: "announcement", path: "/admin/announcement", icon: <FaHornbill size={20} /> },
+    { name: "Site Settings", path: "/admin/site-settings", icon: <Settings size={20} /> },
   ];
 
   return (

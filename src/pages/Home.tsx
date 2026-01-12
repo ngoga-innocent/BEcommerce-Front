@@ -14,13 +14,41 @@ import Footer from "../components/Footer";
 import Spinner from "../components/LoadingSpinner";
 import { useGetAdsQuery } from "@/features/products/adsApi";
 import { useNavigate } from "react-router-dom";
-
+import { Helmet } from "react-helmet-async";
+import HomeBannerSlider from "@/components/HomeBannerSlider";
 export default function HomePage() {
+  <Helmet>
+    <title>My Next Market | Best Market Services in Burundi</title>
+    <meta
+      name="description"
+      content="We offer the best services in Burundi. Fast, reliable and affordable."
+    />
+    <meta
+      name="keywords"
+      content="business, services, Burundi, affordable,market,next"
+    />
+
+    {/* Open Graph (Facebook, WhatsApp) */}
+    <meta
+      property="og:title"
+      content="My Next Market | Best Market Services in Burundi"
+    />
+    <meta
+      property="og:description"
+      content="We offer the best Market services in Burundi."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mynextmarket.com" />
+    <meta property="og:image" content="https://mynextmarket.com/logo.png" />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+  </Helmet>
   const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   );
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   // console.log("selected category", selectedCategory);
   const { data: activeAd, isLoading: adLoading } = useGetAdsQuery();
   const { data: categoryProducts, isLoading: categoryLoading } =
@@ -42,18 +70,20 @@ export default function HomePage() {
         <Navbar />
       </div>
       {/* Hero Section */}
-      {activeAd && activeAd?.length >0 && <div className="overflow-hidden bg-amber-600 fixed top-18 w-full z-50  shadow-md py-2">
-        <div className="whitespace-nowrap animate-marquee flex items-center">
-          {activeAd?.slice(0, 1)?.map((ad) => (
-            <span
-              key={ad.id}
-              className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(255,255,255,0.4)] Capitalize"
-            >
-              {ad?.text}
-            </span>
-          ))}
+      {activeAd && activeAd?.length > 0 && (
+        <div className="overflow-hidden bg-amber-600  mt-18 w-full z-50  shadow-md py-2">
+          <div className="whitespace-nowrap animate-marquee flex items-center">
+            {activeAd?.slice(0, 1)?.map((ad) => (
+              <span
+                key={ad.id}
+                className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(255,255,255,0.4)] Capitalize"
+              >
+                {ad?.text}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>}
+      )}
 
       <section className="relative bg-linear-to-r from-orange-400 to-yellow-400 text-white py-20 px-6 rounded-b-3xl shadow-lg mb-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
@@ -65,16 +95,22 @@ export default function HomePage() {
               Shop the best products with ease. Browse, contact, and get your
               favorites today!
             </p>
-            <Button onClick={()=>navigate("/upload")} className="bg-linear-to-r from-yellow-400 to-orange-500 text-black font-bold shadow-lg hover:opacity-90">
+            <Button
+              onClick={() => navigate("/upload")}
+              className="bg-linear-to-r from-yellow-400 to-orange-500 text-black font-bold shadow-lg hover:opacity-90"
+            >
               Add Your Products Now
             </Button>
           </div>
-          <div className="md:w-1/2">
+          {/* <div className="md:w-1/2">
             <img
               src={Shopping}
               alt="Shop Banner"
               className="w-full rounded-2xl shadow-2xl"
             />
+          </div> */}
+          <div className="md:w-1/2">
+            <HomeBannerSlider />
           </div>
         </div>
       </section>
@@ -115,7 +151,7 @@ export default function HomePage() {
             className={`shrink-0 px-6 py-4 rounded-xl shadow-md cursor-pointer transform transition-all duration-300 
         ${
           selectedCategory === null
-            ? "bg-amber-600 text-white shadow-lg scale-105"
+            ? "bg-pink-500 text-white shadow-lg scale-105"
             : "bg-yellow-50 text-gray-800 hover:scale-105 hover:shadow-lg"
         }`}
           >
@@ -130,7 +166,7 @@ export default function HomePage() {
               className={`shrink-0 px-6 py-4 rounded-xl shadow-md cursor-pointer transform transition-all duration-300 
           ${
             selectedCategory === cat.slug
-              ? "bg-amber-600 text-white shadow-lg scale-105"
+              ? "bg-pink-500 text-white shadow-lg scale-105"
               : "bg-yellow-50 text-gray-800 hover:scale-105 hover:shadow-lg"
           }`}
             >

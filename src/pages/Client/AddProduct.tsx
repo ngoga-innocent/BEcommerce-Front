@@ -12,7 +12,7 @@ import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
 import { toast } from "react-toastify";
-
+import { Helmet } from "react-helmet-async";
 export default function UploadProduct() {
   const navigate = useNavigate();
   const { data: categories } = useGetCategoriesQuery();
@@ -74,6 +74,34 @@ export default function UploadProduct() {
   };
   const currency=["USD","EUR","BIF"];
   return (
+    <>
+    <Helmet>
+        <title>My Next Market | Best Market Services in Burundi</title>
+        <meta
+          name="Add New Product"
+          content="We offer the best services in Burundi. Fast, reliable and affordable."
+        />
+        <meta
+          name="keywords"
+          content="business, services, Burundi, affordable,market,next"
+        />
+    
+        {/* Open Graph (Facebook, WhatsApp) */}
+        <meta
+          property="og:title"
+          content="My Next Market | Best Market Services in Burundi"
+        />
+        <meta
+          property="og:description"
+          content="We offer the best Market services in Burundi."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://mynextmarket.com" />
+        <meta property="og:image" content="https://mynextmarket.com/logo.png" />
+    
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
     <div className="min-h-screen bg-yellow-50 text-gray-900">
       <Navbar />
 
@@ -213,5 +241,6 @@ export default function UploadProduct() {
 
       <Footer />
     </div>
+    </>
   );
 }

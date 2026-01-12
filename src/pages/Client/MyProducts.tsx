@@ -9,7 +9,7 @@ import Navbar from "./Navbar";
 import Footer from "../../components/Footer";
 import { toast } from "react-toastify";
 import { FaTrash, FaEdit } from "react-icons/fa";
-
+import { Helmet } from "react-helmet-async";
 export default function MyProducts() {
   const { data: products, isLoading, isError } = useGetMyProductsQuery();
   const [deleteProduct] = useDeleteProductMutation();
@@ -34,6 +34,34 @@ export default function MyProducts() {
   //   if (!products || products.length === 0) return <p className="text-center py-10 text-gray-700">You have no products yet.</p>;
 
   return (
+    <>
+    <Helmet>
+            <title>My Next Market | Best Market Services in Burundi</title>
+            <meta
+              name="Add New Product"
+              content="We offer the best services in Burundi. Fast, reliable and affordable."
+            />
+            <meta
+              name="keywords"
+              content="business, services, Burundi, affordable,market,next"
+            />
+        
+            {/* Open Graph (Facebook, WhatsApp) */}
+            <meta
+              property="og:title"
+              content="My Next Market | Best Market Services in Burundi"
+            />
+            <meta
+              property="og:description"
+              content="We offer the best Market services in Burundi."
+            />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://mynextmarket.com" />
+            <meta property="og:image" content="https://mynextmarket.com/logo.png" />
+        
+            {/* Twitter */}
+            <meta name="twitter:card" content="summary_large_image" />
+          </Helmet>
     <div className="min-h-screen flex-1 bg-yellow-50 text-gray-900">
       <Navbar />
       {isLoading && (
@@ -104,5 +132,6 @@ export default function MyProducts() {
 
       <Footer />
     </div>
+    </>
   );
 }

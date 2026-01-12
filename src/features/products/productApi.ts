@@ -50,6 +50,44 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
+    addHomeBanner: builder.mutation<any, FormData>({
+      query: (data) => ({
+        url: '/api/home-banners/',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    addLoginBanner: builder.mutation<any, FormData>({
+      query: (data) => ({
+        url: '/api/login-banners/',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    getHomeBanners: builder.query<any[], void>({
+      query: () => '/api/home-banners/',
+      providesTags: ['Products'],
+    }),
+    getLoginBanners: builder.query<any[], void>({
+      query: () => '/api/login-banners/',
+      providesTags: ['Products'],
+    }),
+    deleteHomeBanner: builder.mutation<{ success: boolean; id: number }, number>({
+      query: (id) => ({
+        url: `/api/home-banners/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    deleteLoginBanner: builder.mutation<{ success: boolean; id: number }, number>({
+      query: (id) => ({
+        url: `/api/login-banners/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Products'],
+    }),
   }),
 });
 
@@ -60,4 +98,10 @@ export const {
   useUpdateProductMutation,
   useGetMyProductsQuery,
   useDeleteProductMutation,
+  useAddHomeBannerMutation,
+  useAddLoginBannerMutation,
+  useGetHomeBannersQuery,
+  useGetLoginBannersQuery,
+  useDeleteHomeBannerMutation,
+  useDeleteLoginBannerMutation,
 } = productsApi;

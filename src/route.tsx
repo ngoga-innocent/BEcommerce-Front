@@ -14,6 +14,7 @@ import AdminUserPage from "./pages/admin/AdminUserPage";
 import AdminAdsPage from "./pages/admin/AdminAds";
 import MyProducts from "./pages/Client/MyProducts";
 import EditProduct from "./pages/Client/UpdateProduct";
+import AdminBannersPage from "./pages/admin/AdminSiteSettings";
 // Protected Route for Admin
 
 const AdminRoute = ({ children }: any) => {
@@ -107,6 +108,15 @@ export default function AppRoutes() {
           element={
             <AdminRoute>
               <AdminAdsPage />
+              {/* <AdminProductPage /> */}
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/site-settings"
+          element={
+            <AdminRoute>
+              <AdminBannersPage />
               {/* <AdminProductPage /> */}
             </AdminRoute>
           }

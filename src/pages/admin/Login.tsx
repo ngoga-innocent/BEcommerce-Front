@@ -3,11 +3,17 @@ import { useLoginMutation } from "../../features/auth/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { loginSuccess } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import {NAME} from "@/Name"
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { NAME } from "@/Name";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import Login from "../../assets/login.svg";
+import LoginBannerSlider from "@/components/LoginBanner";
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,21 +43,23 @@ export default function AdminLogin() {
       <div className="absolute bottom-20 right-20 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl"></div>
 
       <Card className="w-full max-w-5xl backdrop-blur-xl bg-[#1f1f1f]/60 border border-yellow-500/20 shadow-[0_0_25px_rgba(255,179,0,0.25)] rounded-2xl overflow-hidden grid md:grid-cols-2">
-        
         {/* LEFT SIDE - TEXT + IMAGE */}
         <div className="hidden md:flex flex-col justify-center p-10  text-white">
           <h1 className="text-4xl font-extrabold mb-4 drop-shadow-lg">
             Welcome Back, Admin
           </h1>
           <p className="opacity-90 mb-6">
-            Manage your products, categories, templates, and more — 
-            all in one elegant dashboard with full control.
+            Manage your products, categories, templates, and more — all in one
+            elegant dashboard with full control.
           </p>
-          <img
+          {/* <img
             src={Login}
             alt="Admin Illustration"
             className="w-64 mx-auto drop-shadow-xl"
-          />
+          /> */}
+          <div className="w-64  drop-shadow-2xl">
+            <LoginBannerSlider />
+          </div>
         </div>
 
         {/* RIGHT SIDE - LOGIN FORM */}
