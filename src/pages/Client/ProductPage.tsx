@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useGetProductQuery } from "../../features/products/productApi";
+import {
+  useAddProductViewMutation,
+  useGetProductQuery,
+} from "../../features/products/productApi";
 import Spinner from "../../components/LoadingSpinner";
 import Navbar from "./Navbar";
 import Footer from "../../components/Footer";
 import { Helmet } from "react-helmet-async";
-// Swiper imports
+import { FaEye } from "react-icons/fa";
+
+// Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
+
 import {
   FaFacebook,
   FaLink,
@@ -21,275 +27,189 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 
+const VIEW_EXPIRY_HOURS = 24;
+
 const ProductPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { data: product, isLoading, isError } = useGetProductQuery(slug!);
+  const [addView] = useAddProductViewMutation();
+
   const [showShareModal, setShowShareModal] = useState(false);
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+
+  /* ------------------ 24H UNIQUE VIEW LOGIC ------------------ */
+  useEffect(() => {
+    if (!product?.slug) return;
+
+    const storageKey = `product-view-${product.slug}`;
+    const now = Date.now();
+    const lastViewed = localStorage.getItem(storageKey);
+
+    if (lastViewed) {
+      const diffHours =
+        (now - parseInt(lastViewed, 10)) / (1000 * 60 * 60);
+
+      if (diffHours < VIEW_EXPIRY_HOURS) {
+        return; // ❌ already viewed in last 24h
+      }
+    }
+
+    // ✅ count view
+    addView(product.slug);
+    localStorage.setItem(storageKey, now.toString());
+  }, [product?.slug, addView]);
+
+  /* ------------------ HELPERS ------------------ */
   const formatWhatsAppNumber = (num: string) => {
     if (!num) return "";
-
-    // Remove spaces
     num = num.trim();
-
-    // Already has +countrycode
     if (num.startsWith("+")) return num.replace("+", "");
-
-    // Already starts with country code (example: 250...)
     if (num.length > 8 && /^\d+$/.test(num)) return num;
-
-    // If user entered local number like 788123456 → add Rwanda code 250
-    if (/^\d{8}$/.test(num)) return "+257" + num;
-
-    // Fallback (return digits only)
+    if (/^\d{8}$/.test(num)) return "257" + num;
     return num.replace(/\D/g, "");
   };
 
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-
-  if (isLoading)
+  /* ------------------ STATES ------------------ */
+  if (isLoading) {
     return <Spinner size="lg" color="amber" text="Loading Product..." />;
-  if (isError || !product)
+  }
+
+  if (isError || !product) {
     return <p className="text-center py-10">Product not found.</p>;
+  }
 
   const images = [
     product.thumbnail_url,
     ...(product.product_images?.map((img) => img.image_url) || []),
   ];
 
+  /* ------------------ UI ------------------ */
   return (
     <>
       <Helmet>
-        <title>My Next Market | Best Market Services in Burundi</title>
-        <meta
-          name="Add New Product"
-          content="We offer the best services in Burundi. Fast, reliable and affordable."
-        />
-        <meta
-          name="keywords"
-          content="business, services, Burundi, affordable,market,next"
-        />
-
-        {/* Open Graph (Facebook, WhatsApp) */}
-        <meta
-          property="og:title"
-          content="My Next Market | Best Market Services in Burundi"
-        />
-        <meta
-          property="og:description"
-          content="We offer the best Market services in Burundi."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://mynextmarket.com" />
-        <meta property="og:image" content="https://mynextmarket.com/logo.png" />
-
-        {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
+        <title>{product.title} | My Next Market</title>
+        <meta name="description" content={product.description} />
+        <meta property="og:title" content={product.title} />
+        <meta property="og:image" content={product.thumbnail_url} />
       </Helmet>
+
       <div className="min-h-screen bg-yellow-50 text-gray-900">
         <Navbar />
 
-        <section className="max-w-7xl mx-auto px-4 md:px-6 py-20 flex flex-col lg:flex-row  gap-10">
-          {/* Image Slider */}
+        <section className="max-w-7xl mx-auto px-4 py-20 flex flex-col lg:flex-row gap-10">
+          {/* IMAGE SLIDER */}
           <div className="lg:w-1/2">
-            {/* Main Slider */}
             <Swiper
               modules={[Navigation, Pagination, Thumbs]}
               thumbs={{ swiper: thumbsSwiper }}
               navigation
               pagination={{ clickable: true }}
               spaceBetween={20}
-              className="rounded-2xl shadow-2xl items-center-safe"
-              style={
-                {
-                  "--swiper-navigation-color": "#f59e0b",
-                  "--swiper-pagination-color": "#f59e0b",
-                } as any
-              } // Tailwind amber
+              className="rounded-2xl shadow-2xl"
             >
-              {images.map((imgUrl, idx) => (
-                <SwiperSlide key={idx}>
+              {images.map((img, i) => (
+                <SwiperSlide key={i}>
                   <img
-                    src={imgUrl}
-                    alt={`${product.title} ${idx}`}
-                    className="w-full h-[60vh] md:h-[60vh] lg:h-[60vh] object-cover rounded-2xl"
+                    src={img}
+                    alt={`${product.title}-${i}`}
+                    className="w-full h-[60vh] object-cover rounded-2xl"
                   />
                 </SwiperSlide>
               ))}
             </Swiper>
 
-            {/* Thumbnails */}
             <Swiper
               onSwiper={setThumbsSwiper}
               modules={[Thumbs]}
               spaceBetween={10}
               slidesPerView={4}
-              freeMode
-              watchSlidesProgress
               className="mt-4"
             >
-              {images.map((imgUrl, idx) => (
-                <SwiperSlide
-                  key={idx}
-                  className="cursor-pointer border-2 border-transparent hover:border-amber-500 rounded-lg"
-                >
+              {images.map((img, i) => (
+                <SwiperSlide key={i}>
                   <img
-                    src={imgUrl}
-                    alt={`Thumbnail ${idx}`}
-                    className="w-full h-20 md:h-24 object-cover rounded-lg"
+                    src={img}
+                    className="h-20 w-full object-cover rounded-lg cursor-pointer"
                   />
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
 
-          {/* Product Info */}
-          <div className="lg:w-1/2 flex flex-col gap-6">
-            <h1 className="text-3xl md:text-4xl font-bold">{product.title}</h1>
+          {/* PRODUCT INFO */}
+          <div className="lg:w-1/2 space-y-4">
+            <h1 className="text-4xl font-bold" style={{
+              fontFamily:"-apple-system,serif"
+            }}>{product.title}</h1>
+              <p className="text-gray-700">{product.location}</p>
+            <div className="flex items-center gap-2 text-gray-500">
+              <FaEye className="text-amber-500" />
+              <span>{product.views?.toLocaleString()} views</span>
+            </div>
+
             <p className="text-gray-700">{product.description}</p>
+
             <p className="text-2xl font-semibold text-amber-500">
               {product.currency} {product.price}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <button className="px-6  text-sm py-3 bg-amber-400 hover:bg-amber-500 rounded-lg font-bold shadow-md transition">
-                Call <span> {formatWhatsAppNumber(product.contact_phone)}</span>
-              </button>
+            <div className="flex flex-wrap gap-3 mt-4">
               <a
                 href={`https://wa.me/${formatWhatsAppNumber(
                   product.whatsapp_number
                 )}?text=Hello, I want to buy ${product.title}`}
                 target="_blank"
-                className="px-6 text-sm py-3 bg-green-500 hover:bg-green-600 rounded-lg font-bold shadow-md text-white transition text-center"
+                className="px-6 py-3 bg-green-500 text-white rounded-lg font-bold"
               >
-                <span>Contact via WhatsApp</span>
-                <FaWhatsapp className="inline ml-2" />
+                WhatsApp <FaWhatsapp className="inline ml-1" />
               </a>
+
               <button
                 onClick={() => setShowShareModal(true)}
-                className="px-6 text-sm py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-bold shadow-md text-white transition"
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg font-bold"
               >
-                Share Product
+                Share
               </button>
             </div>
           </div>
         </section>
-        {/* Share Modal */}
+
+        {/* SHARE MODAL */}
         {showShareModal && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 animate-fade">
-            <div className="bg-white w-80 rounded-2xl p-6 shadow-2xl animate-scaleIn">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Share this product
-              </h2>
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-xl w-80">
+              <h2 className="font-semibold mb-4">Share product</h2>
 
               <div className="grid grid-cols-3 gap-4 text-center">
-                {/* WhatsApp */}
                 <a
                   href={`https://wa.me/?text=${product.title}%0A${window.location.href}`}
                   target="_blank"
-                  className="flex flex-col items-center gap-2 group"
                 >
-                  <div
-                    className="w-14 h-14 flex items-center justify-center 
-                          bg-green-500/10 text-green-600 rounded-full 
-                          group-hover:bg-green-500 group-hover:text-white transition"
-                  >
-                    <FaWhatsapp color="green" />
-                  </div>
-                  <p className="text-sm text-gray-700">WhatsApp</p>
+                  <FaWhatsapp className="mx-auto text-green-500" />
+                  WhatsApp
                 </a>
 
-                {/* Facebook */}
                 <a
                   href={`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`}
                   target="_blank"
-                  className="flex flex-col items-center gap-2 group"
                 >
-                  <div
-                    className="w-14 h-14 flex items-center justify-center 
-                          bg-blue-600/10 text-blue-600 rounded-full 
-                          group-hover:bg-blue-600 group-hover:text-white transition"
-                  >
-                    <FaFacebook color="blue" />
-                  </div>
-                  <p className="text-sm text-gray-700">Facebook</p>
+                  <FaFacebook className="mx-auto text-blue-600" />
+                  Facebook
                 </a>
 
-                {/* X */}
-                <a
-                  href={`https://twitter.com/intent/tweet?url=${window.location.href}`}
-                  target="_blank"
-                  className="flex flex-col items-center gap-2 group"
-                >
-                  <div
-                    className="w-14 h-14 flex items-center justify-center 
-                          bg-black/10 text-black rounded-full 
-                          group-hover:bg-black group-hover:text-white transition"
-                  >
-                    <FaTwitter />
-                  </div>
-                  <p className="text-sm text-gray-700">X</p>
-                </a>
-
-                {/* Telegram */}
-                <a
-                  href={`https://t.me/share/url?url=${window.location.href}`}
-                  target="_blank"
-                  className="flex flex-col items-center gap-2 group"
-                >
-                  <div
-                    className="w-14 h-14 flex items-center justify-center 
-                          bg-blue-400/10 text-blue-400 rounded-full 
-                          group-hover:bg-blue-400 group-hover:text-white transition"
-                  >
-                    <FaTelegram />
-                  </div>
-                  <p className="text-sm text-gray-700">Telegram</p>
-                </a>
-
-                {/* Copy Link */}
                 <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    alert("Link copied!");
-                  }}
-                  className="flex flex-col items-center gap-2 group"
+                  onClick={() =>
+                    navigator.clipboard.writeText(window.location.href)
+                  }
                 >
-                  <div
-                    className="w-14 h-14 flex items-center justify-center 
-                          bg-gray-600/10 text-gray-600 rounded-full 
-                          group-hover:bg-gray-600 group-hover:text-white transition"
-                  >
-                    <FaLink />
-                  </div>
-                  <p className="text-sm text-gray-700">Copy</p>
-                </button>
-
-                {/* Native Share */}
-                <button
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: product.title,
-                        url: window.location.href,
-                      });
-                    }
-                  }}
-                  className="flex flex-col items-center gap-2 group"
-                >
-                  <div
-                    className="w-14 h-14 flex items-center justify-center 
-                          bg-purple-500/10 text-purple-600 rounded-full 
-                          group-hover:bg-purple-600 group-hover:text-white transition"
-                  >
-                    <FaShare />
-                  </div>
-                  <p className="text-sm text-gray-700">Share</p>
+                  <FaLink className="mx-auto" />
+                  Copy
                 </button>
               </div>
 
               <button
                 onClick={() => setShowShareModal(false)}
-                className="w-full mt-6 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl text-gray-700 transition font-medium"
+                className="mt-6 w-full bg-gray-200 py-2 rounded"
               >
                 Close
               </button>

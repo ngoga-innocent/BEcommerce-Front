@@ -26,7 +26,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   ];
 
   return (
-    <div className="min-h-[70vh] h-screen flex bg-linear-to-br from-[#1b1b1b] via-[#222] to-[#1a1a1a] text-white">
+    <div className="min-h-[70vh] h-screen overflow-y-scroll flex bg-linear-to-br from-[#1b1b1b] via-[#222] to-[#1a1a1a] text-white">
 
       {/* --- Sidebar --- */}
       <aside

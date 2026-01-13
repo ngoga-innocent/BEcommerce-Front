@@ -1,54 +1,47 @@
-// components/HomeBannerSlider.tsx
+import { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, EffectCards } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 import { useGetHomeBannersQuery } from "@/features/products/productApi";
 
-export default function HomeBannerSlider() {
-  const { data: banners = [], isLoading } = useGetHomeBannersQuery();
+interface Props {
+  onChange?: (banner: any) => void;
+}
 
-  if (isLoading) {
-    return (
-      <div className="h-[380px] w-full animate-pulse rounded-2xl bg-slate-800" />
-    );
-  }
+export default function HomeBannerSlider({ onChange }: Props) {
+  const { data: banners = [] } = useGetHomeBannersQuery();
 
-  if (banners.length === 0) {
-    return null;
-  }
+  if (!banners.length) return null;
 
   return (
-    <Swiper
-      modules={[Autoplay, Pagination, EffectFade]}
-      autoplay={{ delay: 5000, disableOnInteraction: false }}
-      pagination={{ clickable: true }}
-      effect="slide"
-      loop
-      className="rounded-2xl shadow-2xl"
-    >
-      {banners.map((banner) => (
-        <SwiperSlide key={banner.id}>
-          <div className="relative">
+    <div className="relative w-full h-[350px] rounded-2xl overflow-hidden shadow-2xl">
+      <Swiper
+        modules={[Autoplay, EffectCards]}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        effect="slide"
+        loop
+        pagination={{ clickable: true }}
+        onSlideChange={(swiper) => {
+          const realIndex = swiper.realIndex;
+          onChange?.(banners[realIndex]);
+        }}
+        className="w-full h-full"
+      >
+        {banners.map((banner) => (
+          <SwiperSlide key={banner.id}>
             <img
               src={banner.image}
-              alt={banner.caption}
-              className="h-[380px] w-full rounded-2xl object-cover"
+              alt={banner.title}
+              className="w-full h-full object-cover"
             />
-
-            {/* Caption overlay */}
-            {banner.caption && (
-              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent p-6">
-                <h3 className="text-lg font-semibold text-white">
-                  {banner.caption}
-                </h3>
-              </div>
-            )}
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }

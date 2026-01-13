@@ -20,6 +20,7 @@ import LoginBannerSlider from "@/components/LoginBanner";
 export default function ClientRegister() {
   const [username, setUsername] = useState("");
   const [phone_number, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -32,7 +33,7 @@ export default function ClientRegister() {
     setErrorMsg(null);
 
     try {
-      const res = await register({ username, phone_number, password }).unwrap();
+      const res = await register({ username, phone_number, email, password }).unwrap();
       console.log("registration response", res);
       toast.success("Registration successful! Please login.");
       // Optionally: auto-login user after registration
@@ -121,6 +122,17 @@ export default function ClientRegister() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="admin"
+                    className="bg-[#2b2b2b] text-white border-yellow-500/30 placeholder-gray-400 focus-visible:ring-yellow-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-200 mb-1">Email</label>
+                  <Input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@gmail.com"
                     className="bg-[#2b2b2b] text-white border-yellow-500/30 placeholder-gray-400 focus-visible:ring-yellow-500"
                     required
                   />

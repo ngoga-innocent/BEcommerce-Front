@@ -16,6 +16,7 @@ import { useGetAdsQuery } from "@/features/products/adsApi";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import HomeBannerSlider from "@/components/HomeBannerSlider";
+import VideoAdsSection from "@/components/VideoAds";
 export default function HomePage() {
   <Helmet>
     <title>My Next Market | Best Market Services in Burundi</title>
@@ -43,11 +44,13 @@ export default function HomePage() {
 
     {/* Twitter */}
     <meta name="twitter:card" content="summary_large_image" />
-  </Helmet>
+  </Helmet>;
   const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   );
+  const [activeBanner, setActiveBanner] = React.useState<any>(null);
+
   const navigate = useNavigate();
   // console.log("selected category", selectedCategory);
   const { data: activeAd, isLoading: adLoading } = useGetAdsQuery();
@@ -71,12 +74,16 @@ export default function HomePage() {
       </div>
       {/* Hero Section */}
       {activeAd && activeAd?.length > 0 && (
-        <div className="overflow-hidden bg-amber-600  mt-18 w-full z-50  shadow-md py-2">
+        <div className="overflow-hidden bg-linear-to-r from-orange-400 to-yellow-400 mt-18  w-full z-50  shadow-md py-2">
           <div className="whitespace-nowrap animate-marquee flex items-center">
             {activeAd?.slice(0, 1)?.map((ad) => (
               <span
                 key={ad.id}
-                className="inline-block mx-8 text-sm md:text-md lg:text-xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(255,255,255,0.4)] Capitalize"
+                style={{ fontFamily: "'Lavishly Yours', cursive",
+                  WebkitTextStroke: "1px rgba(0,0,0,0.1)",
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                }}
+                className="inline-block mx-8 text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-wider text-black drop-shadow-[2px_2px_4px_rgba(255,255,255,0.4)] Capitalize"
               >
                 {ad?.text}
               </span>
@@ -84,8 +91,44 @@ export default function HomePage() {
           </div>
         </div>
       )}
-
       <section className="relative bg-linear-to-r from-orange-400 to-yellow-400 text-white py-20 px-6 rounded-b-3xl shadow-lg mb-12">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
+          <div className="md:w-1/2 flex flex-col">
+            <h1
+              className="text-5xl font-extrabold mb-4 drop-shadow-2xl"
+              style={{
+                WebkitTextStroke: "1px rgba(0,0,0,0.1)",
+                // fontFamily: "'Playfair Display', serif",
+                fontFamily: "'Lavishly Yours', cursive",
+                textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+              }}
+            >
+              {activeBanner?.title || "Discover Amazing Products"}
+            </h1>
+
+            <p
+              className="mb-6 text-lg  inline-block px-4 py-2 rounded-xl shadow-lg"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              {activeBanner?.caption ||
+                "Shop the best products with ease. Browse, contact, and get your favorites today!"}
+            </p>
+
+            <Button
+              onClick={() => navigate("/upload")}
+              className="bg-linear-to-r w-fit from-yellow-400 to-orange-500 text-black font-bold shadow-lg hover:opacity-90"
+            >
+              Add Your Products Now
+            </Button>
+          </div>
+
+          <div className="md:w-1/2">
+            <HomeBannerSlider onChange={setActiveBanner} />
+          </div>
+        </div>
+      </section>
+
+      {/* <section className="relative bg-linear-to-r from-orange-400 to-yellow-400 text-white py-20 px-6 rounded-b-3xl shadow-lg mb-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-10">
           <div className="md:w-1/2">
             <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
@@ -102,18 +145,20 @@ export default function HomePage() {
               Add Your Products Now
             </Button>
           </div>
-          {/* <div className="md:w-1/2">
+          <div className="md:w-1/2">
             <img
               src={Shopping}
               alt="Shop Banner"
               className="w-full rounded-2xl shadow-2xl"
             />
-          </div> */}
+          </div>
           <div className="md:w-1/2">
             <HomeBannerSlider />
           </div>
         </div>
-      </section>
+      </section> */}
+      {/* Video Ads Section */}
+      <VideoAdsSection />
       {/* Category Section */}
 
       {/* Products Section */}

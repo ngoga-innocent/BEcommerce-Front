@@ -88,6 +88,32 @@ export const productsApi = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
+    addVideoAds: builder.mutation<any, FormData>({
+      query: (data) => ({
+        url: '/api/video-ads/',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    getVideoAds: builder.query<any[], void>({
+      query: () => '/api/video-ads/',
+      providesTags: ['Products'],
+    }),
+    deleteVideoAds: builder.mutation<{ success: boolean; id: number }, number>({
+      query: (id) => ({
+        url: `/api/video-ads/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    addProductView: builder.mutation<void, string>({
+      query: (slug) => ({
+        url: `/api/products/${slug}/view/`,
+        method: 'POST',
+      }),
+    }),
+
   }),
 });
 
@@ -104,4 +130,8 @@ export const {
   useGetLoginBannersQuery,
   useDeleteHomeBannerMutation,
   useDeleteLoginBannerMutation,
+  useAddVideoAdsMutation,
+  useGetVideoAdsQuery,
+  useDeleteVideoAdsMutation,
+  useAddProductViewMutation,
 } = productsApi;

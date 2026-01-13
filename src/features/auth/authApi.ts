@@ -5,15 +5,16 @@ import { url } from '../../url';
 interface LoginRequest {
   username: string;
   password: string;
-  
+
 }
 
 interface LoginResponse {
   access: string;
   refresh?: string;
-  user:{
+  user: {
     id: number;
     username: string;
+    email: string;
     phone_number: string;
     allowed_to_post: boolean;
     is_staff: boolean;
@@ -24,15 +25,17 @@ interface LoginResponse {
 interface RegisterRequest {
   username: string;
   phone_number: string;
+  email: string;
   password: string;
-  
+
 }
 
 interface RegisterResponse {
   id: number;
   username: string;
+  email: string;
   phone_number: string;
-  
+
 }
 
 export const authApi = createApi({
@@ -53,7 +56,31 @@ export const authApi = createApi({
         body,
       }),
     }),
+    forgotPassword: builder.mutation<{ success: boolean; message: string }, { email: string }>({
+      query: (body) => ({
+        url: `${url}/api/accounts/auth/forgot-password/`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    verifyResetOTP: builder.mutation<{ success: boolean; reset_token: string }, { email: string; otp: string }>({
+      query: (body) => ({
+        url: `${url}/api/accounts/auth/verify-reset-otp/`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    resetPassword: builder.mutation<{ success: boolean; message: string }, { reset_token: string; new_password: string }>({
+      query: (body) => ({
+        url: `${url}/api/accounts/auth/reset-password/`,
+        method: "POST",
+        body,
+      }),
+    }),
+
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation,useForgotPasswordMutation, useVerifyResetOTPMutation, useResetPasswordMutation } = authApi;

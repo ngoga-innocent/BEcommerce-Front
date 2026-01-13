@@ -4,6 +4,7 @@ interface ProductImage {
 export interface Product {
   id: number;
   title: string;
+  location: string;
   slug: string;
   description: string;
   price: number;
@@ -13,6 +14,7 @@ export interface Product {
   active: boolean;
   category: number;
   currency: string;
+  views: number;
   product_images: ProductImage[] | null;
   category_data: {
     id: number;

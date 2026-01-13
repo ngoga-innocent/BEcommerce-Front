@@ -15,6 +15,9 @@ import AdminAdsPage from "./pages/admin/AdminAds";
 import MyProducts from "./pages/Client/MyProducts";
 import EditProduct from "./pages/Client/UpdateProduct";
 import AdminBannersPage from "./pages/admin/AdminSiteSettings";
+import ForgotPasswordPage from "./pages/Accounts/ForgetPassword";
+import VerifyOTPPage from "./pages/Accounts/VerifyOtp";
+import ResetPasswordPage from "./pages/Accounts/ResetPassword";
 // Protected Route for Admin
 
 const AdminRoute = ({ children }: any) => {
@@ -44,6 +47,18 @@ export default function AppRoutes() {
         <Route path="/product/:slug" element={<ProductPage />} />
         <Route path="/login" element={<ClienLogin />} />
         <Route path="/register" element={<ClientRegister />} />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPasswordPage />}
+        />
+        <Route
+          path="/reset-password/otp"
+          element={<VerifyOTPPage />}
+        />
+        <Route
+          path="/reset-password/reset-password"
+          element={<ResetPasswordPage />}
+        />
         <Route
           path="/upload"
           element={

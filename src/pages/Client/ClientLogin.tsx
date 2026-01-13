@@ -139,13 +139,20 @@ export default function ClienLogin() {
                   {isLoading ? "Logging in..." : "Login"}
                 </Button>
               </form>
-              <Link
+              <div className="flex flex-col">
+                <Link
                 to="/register"
                 className="text-blue-200 italic text-sm font-bold cursor-pointer text-center"
               >
-                {" "}
                 No Account Yet? Click Here to Create One
               </Link>
+              <Link
+                to="/forgot-password"
+                className="italic text-sm  cursor-pointer text-center text-gray-500"
+              >
+                Forgot Password? Reset Here
+              </Link>
+              </div>
               <p className="mt-6 text-gray-400 text-center text-xs">
                 © 2025 {NAME}. All rights reserved.
               </p>

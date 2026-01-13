@@ -91,6 +91,7 @@ export default function AdminProductPage() {
 
   // -------------------- Save Product --------------------
   const handleSave = async () => {
+    
     const data = new FormData();
     data.append("title", formState.title);
     data.append("description", formState.description);
